@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 3 MOT Test Centre Management — Mock Exam</title>
+<style>
+  :root{
+    --navy:#0b2545; --blue:#1b4965; --teal:#2a9d8f; --green:#1a7f37; --red:#b42318;
+    --ink:#1a1f26; --muted:#5c6773; --paper:#f6f8fa; --card:#fff; --line:#e2e8f0;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--paper); line-height:1.5}
+  .wrap{max-width:820px; margin:0 auto; padding:0 18px}
+  header.hero{background:linear-gradient(135deg,var(--navy),var(--blue)); color:#fff; padding:30px 0}
+  .eyebrow{letter-spacing:.14em; text-transform:uppercase; font-size:12px; font-weight:700; color:#9fc6e0; margin:0 0 6px}
+  h1{font-size:clamp(22px,4vw,32px); margin:0; font-weight:800}
+
+  /* Intro */
+  #intro{padding:40px 0}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px; box-shadow:0 1px 3px rgba(10,30,60,.06)}
+  .rules{list-style:none; padding:0; margin:0 0 22px}
+  .rules li{padding:9px 0 9px 30px; position:relative; border-bottom:1px solid var(--line)}
+  .rules li:last-child{border-bottom:none}
+  .rules li::before{content:"✓"; position:absolute; left:0; color:var(--teal); font-weight:800}
+  .btn{display:inline-block; background:var(--teal); color:#fff; border:none; padding:13px 26px; border-radius:9px; font-weight:700; font-size:16px; cursor:pointer; text-decoration:none}
+  .btn:hover{filter:brightness(.95)}
+  .btn.ghost{background:#fff; color:var(--blue); border:1px solid var(--line)}
+  .btn:disabled{opacity:.5; cursor:not-allowed}
+
+  /* Sticky bar */
+  #bar{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line); box-shadow:0 2px 8px rgba(10,30,60,.07); display:none}
+  #bar .wrap{display:flex; align-items:center; justify-content:space-between; padding:12px 18px; gap:12px}
+  .timer{font-variant-numeric:tabular-nums; font-weight:800; font-size:22px; color:var(--navy)}
+  .timer.warn{color:var(--red); animation:pulse 1s infinite}
+  @keyframes pulse{50%{opacity:.5}}
+  .progress{font-size:14px; color:var(--muted)}
+  .progress b{color:var(--ink)}
+
+  /* Test */
+  #test{display:none; padding:24px 0 60px}
+  .q{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin-bottom:14px}
+  .q .qhead{display:flex; gap:10px; margin-bottom:12px}
+  .q .num{flex:0 0 auto; width:26px; height:26px; border-radius:50%; background:var(--navy); color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center}
+  .q .qtext{font-weight:600; font-size:16px}
+  .q .cat{font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:700; margin-top:3px}
+  .opt{display:block; border:1px solid var(--line); border-radius:9px; padding:11px 14px; margin:8px 0; cursor:pointer; transition:.12s; font-size:15px}
+  .opt:hover{border-color:var(--blue); background:#f8fbfe}
+  .opt input{margin-right:10px}
+  .opt.sel{border-color:var(--blue); background:#eaf3fb}
+  /* review states */
+  .opt.correct{border-color:var(--green); background:#e7f6ec}
+  .opt.wrong{border-color:var(--red); background:#fdecec}
+  .opt .tick{float:right; font-weight:800}
+  .opt.correct .tick{color:var(--green)} .opt.wrong .tick{color:var(--red)}
+  .explain{margin-top:10px; font-size:14px; background:#f1f5f9; border-left:3px solid var(--teal); padding:9px 12px; border-radius:0 6px 6px 0}
+  .explain a{color:var(--blue); font-weight:600}
+  .submit-row{text-align:center; margin-top:22px}
+
+  /* Results */
+  #results{display:none; padding:30px 0 50px}
+  .score{text-align:center; border-radius:16px; padding:30px; color:#fff; margin-bottom:8px}
+  .score.pass{background:linear-gradient(135deg,#1a7f37,#2a9d8f)}
+  .score.fail{background:linear-gradient(135deg,#b42318,#7a1d12)}
+  .score .pct{font-size:54px; font-weight:800; line-height:1}
+  .score .verdict{font-size:22px; font-weight:700; margin-top:6px}
+  .score .detail{opacity:.92; margin-top:6px}
+  .actions{display:flex; gap:10px; justify-content:center; margin:18px 0 26px; flex-wrap:wrap}
+  h2{color:var(--navy); font-size:20px; margin:24px 0 12px}
+  .note{font-size:13px; color:var(--muted); text-align:center; margin-top:14px}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap"><p class="eyebrow"><a href="./" style="color:#9fc6e0; text-decoration:none">← Study guide &amp; flashcards</a></p><h1>Level 3 MOT Test Centre Management — Mock Exam</h1></div></header>
+
+<div id="bar"><div class="wrap">
+  <div class="timer" id="timer">75:00</div>
+  <div class="progress"><b id="answered">0</b> / 35 answered</div>
+  <button class="btn" id="submitTop" style="padding:9px 18px; font-size:14px">Submit</button>
+</div></div>
+
+<!-- INTRO -->
+<section id="intro"><div class="wrap"><div class="card">
+  <h2 style="margin-top:0">Before you start</h2>
+  <ul class="rules">
+    <li><b>35 questions</b>, multiple choice — one correct answer each.</li>
+    <li><b>75 minutes</b> on the clock (the real exam's limit). It auto-submits at zero.</li>
+    <li><b>Pass mark 80%</b> — you need <b>28 out of 35</b>.</li>
+    <li>The real exam is <b>open book</b>. For practice, try answering from memory first, then use the review's links to check.</li>
+    <li>Questions and answer order are <b>shuffled</b> each attempt, so you can re-sit it.</li>
+  </ul>
+  <button class="btn" id="start">Start the 75-minute mock →</button>
+  <p class="note">All answers verified against official DVSA / GOV.UK sources (June 2026).</p>
+</div></div></section>
+
+<!-- TEST -->
+<section id="test"><div class="wrap">
+  <div id="questions"></div>
+  <div class="submit-row"><button class="btn" id="submitBottom">Submit answers</button></div>
+</div></section>
+
+<!-- RESULTS -->
+<section id="results"><div class="wrap">
+  <div class="score" id="scoreBox">
+    <div class="pct" id="scorePct">0%</div>
+    <div class="verdict" id="scoreVerdict"></div>
+    <div class="detail" id="scoreDetail"></div>
+  </div>
+  <div class="actions">
+    <button class="btn" id="retry">Try again (reshuffled)</button>
+    <button class="btn ghost" id="reviewToggle">Jump to review ↓</button>
+  </div>
+  <h2>Full review</h2>
+  <div id="review"></div>
+</div></section>
+
+<script>
+const L = {
+  appeal:['https://www.gov.uk/government/publications/complain-about-an-mot','Appeal an MOT result'],
+  app2:['https://www.gov.uk/guidance/mot-testing-guide/appendix-2-facilities-and-security','Testing Guide — Appendix 2'],
+  app8:['https://www.gov.uk/guidance/mot-testing-guide/appendix-8-disciplinary-procedures','Testing Guide — Appendix 8'],
+  app6:['https://www.gov.uk/guidance/mot-testing-guide/appendix-6-tester-training-and-demonstration-tests','Testing Guide — Appendix 6'],
+  app1:['https://www.gov.uk/guidance/mot-testing-guide/appendix-1-mot-manager-training','Testing Guide — Appendix 1'],
+  secB:['https://www.gov.uk/guidance/mot-testing-guide/b-authorised-examiners','Testing Guide — B. Authorised examiners'],
+  secG:['https://www.gov.uk/guidance/mot-testing-guide/g-vehicle-presenters','Testing Guide — G. Vehicle presenters'],
+  manage:['https://www.gov.uk/guidance/manage-your-mot-centre','Manage your MOT centre'],
+  training:['https://www.gov.uk/mot-tester-training-assessments','Annual tester training'],
+  hswa:['https://www.hse.gov.uk/legislation/hswa.htm','HSE — H&S at Work Act 1974'],
+  risk:['https://www.hse.gov.uk/simple-health-safety/risk/','HSE — Risk assessment'],
+  noise:['https://www.hse.gov.uk/noise/','HSE — Noise at work'],
+  carLamp:['https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles/4-lamps-reflectors-and-electrical-equipment','Inspection Manual §4 Lamps'],
+  carBrake:['https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles/1-brakes','Inspection Manual §1 Brakes'],
+  carEm:['https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles/8-nuisance','Inspection Manual §8 Nuisance/emissions'],
+  bike:['https://www.gov.uk/guidance/mot-inspection-manual-for-motorcycles','MOT Inspection Manual — motorcycles']
+};
+// a = index of correct option
+const QUESTIONS = [
+  {cat:'Appeals', src:'appeal', q:'A presenter wants to appeal an MOT failure (VT30). Within how long, and on what form?', o:['7 working days, VT20','14 working days, VT17','28 calendar days, VT17','3 months, VT30'], a:1, e:'A fail is appealed within 14 working days using the VT17 notice of appeal.'},
+  {cat:'Appeals', src:'appeal', q:'A customer thinks the vehicle passed when it shouldn’t have (not corrosion). Time limit to complain?', o:['14 working days','28 calendar days','3 months','No limit'], a:1, e:'Wrongful-pass complaints: 28 calendar days (most issues).'},
+  {cat:'Appeals', src:'appeal', q:'Complaint that a vehicle wrongly passed where the issue is corrosion-related — time limit?', o:['14 working days','28 calendar days','3 months','6 months'], a:2, e:'Corrosion-related wrongful-pass complaints get 3 months.'},
+  {cat:'Forms', src:'secG', q:'Which form is the notice of appeal against a test result?', o:['VT17','VT20','VT30','VT56'], a:0, e:'VT17 is the notice of appeal. VT20 = pass, VT30 = fail/refusal.'},
+  {cat:'Calibration', src:'app2', q:'From 1 April 2023, a decelerometer must be calibrated at intervals not exceeding…', o:['2 months','6 months','1 year','2 years'], a:2, e:'From 1 April 2023 it’s 1 year (was 2 years before that).'},
+  {cat:'Calibration', src:'app2', q:'A roller brake tester, plate brake tester or headlamp aim tester must be recalibrated…', o:['Every month','Within the 6 months following its last calibration','Every 2 years','Only when it fails'], a:1, e:'Calibrate any time within the 6 months after the last calibration date.'},
+  {cat:'Calibration', src:'app2', q:'A Salter (spring-balance) brake tester must be calibrated at intervals not exceeding…', o:['6 months','1 year','2 years','3 years'], a:2, e:'Salter brake testers: not exceeding 2 years.'},
+  {cat:'Calibration', src:'app2', q:'How often must a diesel smoke meter be checked by the user?', o:['Daily','Every week','Every month','Every 6 months'], a:1, e:'User check weekly; plus 12-monthly UKAS calibration.'},
+  {cat:'Calibration', src:'app2', q:'A diesel smoke meter must be formally calibrated…', o:['Every 6 months by the AE','Every 12 months by a UKAS-accredited technician','Every 2 years','It does not need calibrating'], a:1, e:'Every 12 months by a UKAS-accredited technician.'},
+  {cat:'Calibration', src:'app2', q:'A tyre tread depth gauge requires an accuracy check at least…', o:['Every month','Every 6 months','Every year','Every 2 years'], a:1, e:'At least every 6 months.'},
+  {cat:'Records', src:'app2', q:'Calibration records must be kept for a minimum of…', o:['6 months','1 year','2 years','5 years'], a:2, e:'“Calibration records must be kept for a minimum of two years.”'},
+  {cat:'Roles', src:'secB', q:'Who is responsible for ensuring VTS equipment is calibrated and that valid records exist?', o:['The tester','The equipment manufacturer','The Authorised Examiner (AE)','DVSA'], a:2, e:'The AE carries this responsibility.'},
+  {cat:'Roles', src:'app1', q:'Who must hold a Level 3 Award in MOT Test Centre Management for each AE?', o:['Every tester','At least one AE Principal (AEP)','The receptionist','A DVSA officer'], a:1, e:'Each AE must have at least one AEP holding the qualification.'},
+  {cat:'Quality', src:'manage', q:'How often should each tester’s work be quality-control checked?', o:['Once a year','At least one test per tester every 2 months','Every week','Only after a complaint'], a:1, e:'“Check at least one MOT test from each tester every 2 months.”'},
+  {cat:'Roles', src:'app1', q:'The station’s only trained manager (AEDM) leaves. What must happen?', o:['Nothing changes','A replacement is trained within 35 working days or testing stops','Replace within 3 months','Carry on indefinitely'], a:1, e:'Train a replacement within 35 working days or cessation follows.'},
+  {cat:'Training', src:'app1', q:'The Level 3 management course lasts at least…', o:['8 hours','16 hours','24 hours','40 hours'], a:1, e:'“It lasts at least 16 hours and has 4 parts.”'},
+  {cat:'Training', src:'training', q:'Minimum annual training for a tester who tests one group?', o:['At least 3 hours/year + pass the assessment','16 hours over 5 years','36 hours/year','No requirement'], a:0, e:'At least 3 hours each year + pass the annual assessment. (The old 16-hrs/5-yrs rule is out of date.)'},
+  {cat:'Training', src:'training', q:'A tester who tests BOTH groups (A and B) must…', o:['Do 3 hours + 1 assessment','Train at least 6 hours/year + take 2 annual assessments','Do 12 hours + 1 assessment','Do nothing extra'], a:1, e:'“…train for at least 6 hours a year (instead of 3) and take 2 annual assessments.”'},
+  {cat:'Training', src:'training', q:'Annual MOT training and assessment must be completed by…', o:['31 December','31 March','1 April','30 June'], a:1, e:'By 31 March each year.'},
+  {cat:'Staff', src:'app6', q:'When a new tester is employed, the manager must obtain…', o:['Their bank details','Evidence the tester is eligible to test','A reference only','Nothing'], a:1, e:'Confirm eligibility/qualification before letting them test.'},
+  {cat:'Discipline', src:'app8', q:'Dishonestly issuing a VT20, or recording a result without examining the vehicle, scores…', o:['50 points','100 points','300 points','500 points'], a:3, e:'Fraud/dishonesty = 500 points (cessation).'},
+  {cat:'Discipline', src:'app8', q:'Which of these is treated most seriously?', o:['Missing slight corrosion','A genuine judgement error','A “ghost” MOT (no examination carried out)','A late assessment'], a:2, e:'A ghost MOT is fraud — a 500-point, cessation-level offence.'},
+  {cat:'Discipline', src:'app8', q:'An AE is subject to cessation when they reach…', o:['40 points for the current case AND 200 total','10 / 50','20 / 80','Only a single 500-point offence'], a:0, e:'AE: 40+ for the current case and 200+ in total (or a single 500-pt offence).'},
+  {cat:'Discipline', src:'app8', q:'A mandatory item of test equipment malfunctions during the day. You must…', o:['Carry on for 48 hours','Finish only pre-booked cars','Stop testing that class/type immediately','Wait for DVSA to call'], a:2, e:'Stop immediately — testing with faulty major equipment is a 500-point offence.'},
+  {cat:'Health & Safety', src:'hswa', q:'The Health & Safety at Work Act 1974 places duties on…', o:['Employers only','Employees only','Employers and employees','DVSA'], a:2, e:'Both employers and employees have duties.'},
+  {cat:'Health & Safety', src:'hswa', q:'The employer’s general H&S duty is to ensure safety…', o:['At any cost','So far as is reasonably practicable','Only when audited','Only in writing'], a:1, e:'“So far as is reasonably practicable.”'},
+  {cat:'Health & Safety', src:'risk', q:'What is a hazard?', o:['The likelihood of harm occurring','Something with the potential to cause harm','A control measure','An everyday occurrence'], a:1, e:'Hazard = potential to cause harm. Risk = likelihood it does.'},
+  {cat:'Health & Safety', src:'noise', q:'At what workshop noise level must hearing protection be made available (lower action value)?', o:['50 dB','65 dB','80 dB(A)','100 dB(A)'], a:2, e:'80 dB(A) lower action value; mandatory use at 85 dB(A).'},
+  {cat:'Quality', src:'manage', q:'On a DVSA site assessment, the best performance score in each section is…', o:['1','2','3','4'], a:0, e:'1 is best; higher scores flag higher risk.'},
+  {cat:'Customer service', src:'secG', q:'Which best describes the principles of customer communication and care?', o:['Use technical jargon','Eye contact, listening, showing interest and concern','Refer everything to DVSA','Avoid eye contact'], a:1, e:'Eye contact, listening, showing interest and concern.'},
+  {cat:'Customer service', src:'secG', q:'What’s the best way to stop a customer complaint from recurring?', o:['Refuse to discuss it','Review and revise procedures','Change staff contracts','Ignore it'], a:1, e:'Fix the system — review and revise procedures.'},
+  {cat:'Scenario — Cars', src:'carLamp', q:'A 2016 car has front and rear fog lamps; the FRONT fog lamps are inoperative. Action?', o:['Pass','Major','Minor','Dangerous'], a:0, e:'Front fog lamps aren’t testable on a 2016 car — only the rear fog is mandatory.'},
+  {cat:'Scenario — Cars', src:'secG', q:'A heavily modified car (lowered, spoiler) cannot get onto the surface-mounted hoist. You should…', o:['Use the wheels-free 2-post hoist','Refuse to test','Decline to test','Topside check only + partial fee'], a:2, e:'Unsuitable for the facilities → decline to test.'},
+  {cat:'Scenario — Cars', src:'carEm', q:'A kit car with no V5 emission limits and no EGA/in-service match (engine from a 2009 vehicle). Action?', o:['No emissions test needed','Basic emissions test only','Cat test using default limits (CO ≤0.2% fast idle, ≤0.3% idle)','Cat test (CO ≤0.3% / ≤0.5%)'], a:2, e:'If no match, test to default limits: CO ≤0.2% fast idle, ≤0.3% idle.'},
+  {cat:'Scenario — Bikes', src:'bike', q:'Motorcycle + sidecar outfit fitted with a car-type tyre on the sidecar. Action?', o:['Major','Pass','Pass and advise','Dangerous'], a:1, e:'A car-type tyre on a sidecar is acceptable — pass.'}
+];
+
+// ---- engine ----
+const $ = id => document.getElementById(id);
+let order=[], optOrder=[], timeLeft=75*60, timer=null, submitted=false;
+
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function build(){
+  order = shuffle(QUESTIONS.map((_,i)=>i));
+  optOrder = {};
+  const host=$('questions'); host.innerHTML='';
+  order.forEach((qi,pos)=>{
+    const q=QUESTIONS[qi];
+    const oi = shuffle(q.o.map((_,i)=>i));
+    optOrder[qi]=oi;
+    const opts = oi.map(k=>`<label class="opt"><input type="radio" name="q${qi}" value="${k}"><span>${q.o[k]}</span></label>`).join('');
+    const div=document.createElement('div'); div.className='q'; div.id='qb'+qi;
+    div.innerHTML=`<div class="qhead"><div class="num">${pos+1}</div><div><div class="qtext">${q.q}</div><div class="cat">${q.cat}</div></div></div>${opts}`;
+    host.appendChild(div);
+  });
+  host.querySelectorAll('input[type=radio]').forEach(r=>r.addEventListener('change',e=>{
+    const lab=e.target.closest('.opt'); lab.parentNode.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel')); lab.classList.add('sel');
+    $('answered').textContent = host.querySelectorAll('input:checked').length;
+  }));
+}
+
+function startTimer(){
+  timer=setInterval(()=>{
+    timeLeft--;
+    const m=String(Math.floor(timeLeft/60)).padStart(2,'0'), s=String(timeLeft%60).padStart(2,'0');
+    $('timer').textContent=`${m}:${s}`;
+    if(timeLeft<=300) $('timer').classList.add('warn');
+    if(timeLeft<=0){ clearInterval(timer); grade(); }
+  },1000);
+}
+
+function grade(){
+  if(submitted) return; submitted=true; clearInterval(timer);
+  let correct=0;
+  order.forEach(qi=>{
+    const q=QUESTIONS[qi];
+    const picked=document.querySelector(`input[name=q${qi}]:checked`);
+    const pickedVal = picked? Number(picked.value): -1;
+    if(pickedVal===q.a) correct++;
+  });
+  const pct=Math.round(correct/QUESTIONS.length*100);
+  const pass=correct>=28;
+  $('test').style.display='none'; $('bar').style.display='none'; $('results').style.display='block';
+  $('scoreBox').className='score '+(pass?'pass':'fail');
+  $('scorePct').textContent=pct+'%';
+  $('scoreVerdict').textContent = pass? '✓ Pass' : '✗ Not yet';
+  $('scoreDetail').textContent = `${correct} / 35 correct — pass mark is 28 (80%).`;
+  renderReview();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderReview(){
+  const host=$('review'); host.innerHTML='';
+  order.forEach((qi,pos)=>{
+    const q=QUESTIONS[qi];
+    const picked=document.querySelector(`input[name=q${qi}]:checked`);
+    const pickedVal = picked? Number(picked.value): -1;
+    const [url,label]=L[q.src];
+    const opts = optOrder[qi].map(k=>{
+      let cls='opt'; let tick='';
+      if(k===q.a){ cls+=' correct'; tick='<span class="tick">✓ correct</span>'; }
+      else if(k===pickedVal){ cls+=' wrong'; tick='<span class="tick">✗ your answer</span>'; }
+      return `<div class="${cls}">${q.o[k]} ${tick}</div>`;
+    }).join('');
+    const got = pickedVal===q.a;
+    const div=document.createElement('div'); div.className='q';
+    div.innerHTML=`<div class="qhead"><div class="num" style="background:${got?'var(--green)':'var(--red)'}">${pos+1}</div>
+      <div><div class="qtext">${q.q}</div><div class="cat">${q.cat}${pickedVal===-1?' · (left blank)':''}</div></div></div>
+      ${opts}
+      <div class="explain">${q.e} &nbsp;·&nbsp; <a href="${url}" target="_blank" rel="noopener">Verify: ${label} ↗</a></div>`;
+    host.appendChild(div);
+  });
+}
+
+$('start').addEventListener('click',()=>{ $('intro').style.display='none'; $('test').style.display='block'; $('bar').style.display='block'; build(); startTimer(); });
+$('submitTop').addEventListener('click',()=>{ if(confirm('Submit your answers now?')) grade(); });
+$('submitBottom').addEventListener('click',()=>{ if(confirm('Submit your answers now?')) grade(); });
+$('retry').addEventListener('click',()=>{ submitted=false; timeLeft=75*60; $('timer').textContent='75:00'; $('timer').classList.remove('warn'); $('answered').textContent='0'; $('results').style.display='none'; $('test').style.display='block'; $('bar').style.display='block'; build(); startTimer(); window.scrollTo({top:0}); });
+$('reviewToggle').addEventListener('click',()=> $('review').scrollIntoView({behavior:'smooth'}));
+</script>
+</body>
+</html>

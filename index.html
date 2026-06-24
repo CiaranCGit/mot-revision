@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 3 MOT Test Centre Management — Study Guide</title>
+<style>
+  :root{
+    --navy:#0b2545; --blue:#1b4965; --teal:#2a9d8f; --green:#1a7f37;
+    --amber:#b5651d; --red:#b42318; --ink:#1a1f26; --muted:#5c6773;
+    --paper:#f6f8fa; --card:#ffffff; --line:#e2e8f0;
+    --look:#0f7b6c; --look-bg:#e6f4f1; --mem:#9a3412; --mem-bg:#fdeee2;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:var(--paper); line-height:1.55; font-size:16px;
+  }
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px}
+
+  /* Hero */
+  header.hero{
+    background:linear-gradient(135deg,var(--navy),var(--blue));
+    color:#fff; padding:48px 0 40px;
+  }
+  .hero .wrap{display:block}
+  .eyebrow{letter-spacing:.14em; text-transform:uppercase; font-size:13px; font-weight:700; color:#9fc6e0; margin:0 0 8px}
+  h1{font-size:clamp(28px,5vw,44px); line-height:1.1; margin:0 0 12px; font-weight:800}
+  .sub{font-size:18px; color:#d7e6f2; max-width:640px; margin:0 0 28px}
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px}
+  .stat{background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.18); border-radius:14px; padding:16px}
+  .stat .n{font-size:30px; font-weight:800; line-height:1}
+  .stat .l{font-size:13px; color:#cfe0ee; margin-top:6px}
+
+  /* Sections */
+  section{padding:42px 0; border-bottom:1px solid var(--line)}
+  h2{font-size:26px; margin:0 0 6px; color:var(--navy); font-weight:800}
+  .lead{color:var(--muted); margin:0 0 22px; max-width:680px}
+  h3{font-size:18px; color:var(--blue); margin:26px 0 10px}
+
+  /* Callouts */
+  .callout{border-radius:12px; padding:16px 18px; margin:18px 0; border-left:5px solid; font-size:15px}
+  .callout strong{display:block; margin-bottom:4px}
+  .c-amber{background:#fff7ed; border-color:var(--amber); color:#5c3a12}
+  .c-red{background:#fef2f2; border-color:var(--red); color:#5c1512}
+  .c-blue{background:#eff6fb; border-color:var(--blue); color:#0b2545}
+
+  /* Open-book split */
+  .split{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px}
+  .panel{border-radius:14px; padding:18px; border:1px solid var(--line)}
+  .panel.look{background:var(--look-bg); border-color:#bfe3dc}
+  .panel.mem{background:var(--mem-bg); border-color:#f3d3bd}
+  .panel h4{margin:0 0 4px; font-size:17px; display:flex; align-items:center; gap:8px}
+  .panel.look h4{color:var(--look)} .panel.mem h4{color:var(--mem)}
+  .panel p.tag{margin:0 0 12px; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.06em}
+  .panel ul{margin:0; padding-left:18px} .panel li{margin:6px 0; font-size:15px}
+
+  /* Tables */
+  table{width:100%; border-collapse:collapse; margin-top:10px; background:var(--card); border-radius:10px; overflow:hidden; font-size:15px}
+  th,td{text-align:left; padding:11px 13px; border-bottom:1px solid var(--line); vertical-align:top}
+  th{background:var(--navy); color:#fff; font-weight:600}
+  tr:last-child td{border-bottom:none}
+  td code{background:#eef2f6; padding:2px 6px; border-radius:5px; font-size:13px}
+  .yes{color:var(--green); font-weight:700} .no{color:var(--red); font-weight:700} .partly{color:var(--amber); font-weight:700}
+
+  /* Flashcards */
+  .filters{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 20px}
+  .filters button{
+    border:1px solid var(--line); background:var(--card); color:var(--blue); font-weight:600;
+    padding:8px 14px; border-radius:999px; cursor:pointer; font-size:14px; transition:.15s;
+  }
+  .filters button:hover{border-color:var(--blue)}
+  .filters button.active{background:var(--navy); color:#fff; border-color:var(--navy)}
+  #deck{display:flex; flex-direction:column; gap:14px}
+  .rc{background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:0 1px 3px rgba(10,30,60,.06); display:grid; grid-template-columns:1fr 1fr}
+  .rc .ask{padding:18px 20px; border-right:1px solid var(--line)}
+  .rc .resp{padding:18px 20px; background:#f8fafc; display:flex; flex-direction:column; justify-content:center}
+  .badge{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:3px 9px; border-radius:999px; margin-bottom:10px}
+  .b-look{background:var(--look-bg); color:var(--look)}
+  .b-mem{background:var(--mem-bg); color:var(--mem)}
+  .b-official{background:#fef3c7; color:#92600a}
+  .q{font-weight:600; font-size:15px; margin:0 0 10px}
+  .opts{margin:0; padding-left:18px; font-size:14px; color:var(--muted)}
+  .opts li{margin:3px 0}
+  .reveal-btn{align-self:flex-start; background:var(--navy); color:#fff; border:none; padding:10px 18px; border-radius:8px; font-weight:600; cursor:pointer; font-size:14px; transition:.15s}
+  .reveal-btn:hover{background:var(--blue)}
+  .answer{display:none}
+  .rc.revealed .answer{display:block}
+  .rc.revealed .reveal-btn{display:none}
+  .answer .ans{font-size:17px; font-weight:800; color:var(--green); margin:0 0 8px; line-height:1.35}
+  .answer .why{font-size:14px; color:var(--muted); margin:0 0 14px}
+  .answer .vlabel{display:block; font-size:12px; text-transform:uppercase; letter-spacing:.05em; font-weight:700; color:#94a3b8; margin-bottom:6px}
+  .answer .verify{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:#fff; background:var(--teal); text-decoration:none; padding:9px 14px; border-radius:8px}
+  .answer .verify:hover{filter:brightness(.94)}
+  @media(max-width:640px){ .rc{grid-template-columns:1fr} .rc .ask{border-right:none; border-bottom:1px solid var(--line)} }
+
+  /* Guide finder */
+  .gf{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:4px 18px; margin-bottom:14px}
+  .gf summary{cursor:pointer; font-weight:700; color:var(--navy); padding:12px 0; font-size:16px; list-style:none}
+  .gf summary::-webkit-details-marker{display:none}
+  .gf summary::before{content:"▸ "; color:var(--teal)}
+  .gf[open] summary::before{content:"▾ "}
+  .gf .body{padding:0 0 16px}
+  .gf .snip{background:#f1f5f9; border-left:3px solid var(--teal); padding:8px 12px; margin:8px 0; font-size:14px; border-radius:0 6px 6px 0; color:#334}
+  .gf a{color:var(--blue); word-break:break-word}
+  .ctrlf{display:inline-block; background:#eef2f6; padding:2px 7px; border-radius:5px; font-size:13px; font-family:monospace}
+
+  a.btn{display:inline-block; background:var(--teal); color:#fff; text-decoration:none; padding:10px 18px; border-radius:8px; font-weight:600; margin-top:8px}
+
+  footer{padding:30px 0 50px; color:var(--muted); font-size:13px}
+  footer a{color:var(--blue)}
+  .toc{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px}
+  .toc a{font-size:14px; color:#cfe0ee; text-decoration:none; border:1px solid rgba(255,255,255,.25); padding:6px 12px; border-radius:8px}
+  .toc a:hover{background:rgba(255,255,255,.12)}
+
+  @media(max-width:640px){ .split{grid-template-columns:1fr} }
+  @media print{
+    .filters,.reveal-btn{display:none}
+    .rc{page-break-inside:avoid; grid-template-columns:1fr 1fr}
+    .answer{display:block!important}
+    .answer .verify{background:none; color:var(--blue); padding:0; text-decoration:underline}
+    header.hero{background:var(--navy)!important; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">DVSA-approved qualification</p>
+    <h1>Level 3 Award in MOT Test Centre Management</h1>
+    <p class="sub">Everything you need to know before exam day — what the test is, how it works, what you can look up, and what you have to know cold.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">35</div><div class="l">multiple-choice questions</div></div>
+      <div class="stat"><div class="n">75</div><div class="l">minutes (~2 min each)</div></div>
+      <div class="stat"><div class="n">80%</div><div class="l">pass mark (28 of 35)</div></div>
+      <div class="stat"><div class="n">Open</div><div class="l">book — MOT guide allowed</div></div>
+    </div>
+    <div class="toc">
+      <a href="#about">What it is</a>
+      <a href="#conditions">Exam conditions</a>
+      <a href="#split">Look up vs memorise</a>
+      <a href="#cards">Flashcards</a>
+      <a href="#finder">Find it in the guide</a>
+    </div>
+    <a class="btn" href="mock.html" style="margin-top:20px; background:#2a9d8f; font-size:16px; padding:13px 24px">📝 Take the timed mock exam →</a>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <h2>What this qualification is</h2>
+    <p class="lead">It's the DVSA-required management qualification for running an MOT testing station. Every Authorised Examiner must have at least one trained manager (an <strong>AEDM</strong> or <strong>AEP</strong>) — this is the qualification that makes a person professionally competent to fill that role. Once passed, it's a <strong>lifetime</strong> qualification.</p>
+    <h3>The four units it covers</h3>
+    <table>
+      <tr><th>Unit</th><th>What it's about</th></tr>
+      <tr><td>1. Legislation &amp; compliance</td><td>Running a VTS within the rules — equipment, calibration, records, forms, appeals</td></tr>
+      <tr><td>2. Customer service</td><td>Handling complaints and problems professionally</td></tr>
+      <tr><td>3. Staff development &amp; supervision</td><td>Recruiting, appraising, training and supervising testers</td></tr>
+      <tr><td>4. Quality systems &amp; audit</td><td>Site assessments, quality control checks, risk and disciplinary points</td></tr>
+    </table>
+    <div class="callout c-blue">
+      <strong>The skill being tested isn't memory — it's judgement + fast lookup.</strong>
+      With 35 questions in 75 minutes you have about 2 minutes each, so the open book is a backstop for technical detail, not something to lean on for every question.
+    </div>
+  </div>
+</section>
+
+<section id="conditions">
+  <div class="wrap">
+    <h2>Exam conditions</h2>
+    <p class="lead">An online, externally-set and externally-marked multiple-choice test, sat at the end of the course.</p>
+    <table>
+      <tr><th>Detail</th><th>What to expect</th></tr>
+      <tr><td>Format</td><td>Online multiple-choice, on the awarding body's testing platform</td></tr>
+      <tr><td>Questions</td><td>35</td></tr>
+      <tr><td>Time</td><td>75 minutes</td></tr>
+      <tr><td>Pass mark</td><td><strong>80%</strong> — get 28 of 35 right</td></tr>
+      <tr><td>Open book?</td><td>Yes — you may reference the <strong>MOT Testing Guide / Inspection Manual</strong></td></tr>
+      <tr><td>ID</td><td>Bring <strong>photographic ID</strong></td></tr>
+      <tr><td>Entry requirements</td><td>None formally, but industry experience and good English are expected</td></tr>
+    </table>
+    <div class="callout c-amber">
+      <strong>Confirm the exact reference set with your provider.</strong>
+      Exactly which documents you can access can vary slightly by awarding body (IMI vs City &amp; Guilds vs ABC). One quick email beforehand removes any surprise on the day.
+    </div>
+  </div>
+</section>
+
+<section id="split">
+  <div class="wrap">
+    <h2>What you can look up vs what you must know</h2>
+    <p class="lead">This is the single most important thing to understand. The open book only helps with roughly half the exam — the technical units. The "softer" units aren't in the guide and have to be learned.</p>
+    <div class="split">
+      <div class="panel look">
+        <h4>✅ Look it up</h4>
+        <p class="tag">In the guide you're allowed</p>
+        <ul>
+          <li><strong>Calibration intervals</strong> &amp; record retention</li>
+          <li><strong>Appeals timeframes</strong> &amp; VT forms</li>
+          <li><strong>Disciplinary points</strong> (Appendix 8)</li>
+          <li><strong>Quality control</strong> check frequency</li>
+          <li><strong>Pass / Major / Dangerous</strong> test outcomes</li>
+          <li><strong>Decline vs Refuse</strong> rules</li>
+        </ul>
+      </div>
+      <div class="panel mem">
+        <h4>🧠 Must memorise</h4>
+        <p class="tag">Not in the guide</p>
+        <ul>
+          <li><strong>Health &amp; Safety law</strong> — HSWA 1974, "reasonably practicable", noise limits</li>
+          <li><strong>Hazard vs risk</strong> definitions</li>
+          <li><strong>Staff management</strong> — appraisals, training plans</li>
+          <li><strong>Customer-care principles</strong> — communication</li>
+          <li><strong>Current training cycle</strong> (3 hrs/year — not the old 5-year rule)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cards">
+  <div class="wrap">
+    <h2>Flashcards</h2>
+    <p class="lead">Read the question and options on the left, then hit <strong>Reveal answer</strong>. Each answer comes with a direct <strong>"verify it yourself" link</strong> to the exact official page, so you can confirm it (and learn where to look on the day). Filter by topic, or print this page for paper revision.</p>
+    <div class="filters" id="filters"></div>
+    <div id="deck"></div>
+  </div>
+</section>
+
+<section id="finder">
+  <div class="wrap">
+    <h2>Find it in the guide (open-book day)</h2>
+    <p class="lead">For the look-up topics, here's exactly where the answer lives and the <span class="ctrlf">Ctrl+F</span> term to jump to it. Practise finding 3–4 of these live before the exam — speed is the whole game.</p>
+
+    <details class="gf"><summary>Appeals, complaints &amp; forms</summary>
+      <div class="body">
+        <div class="snip">"…no later than <b>14 working days</b> after the date of the test [for a <b>fail</b>]… <b>28 calendar days</b> for a wrongful <b>pass</b>… <b>3 months</b> if corrosion-related." DVSA re-exam offered within <b>5 working days</b>.</div>
+        <div>Ctrl+F: <span class="ctrlf">working days</span>, <span class="ctrlf">VT17</span>, <span class="ctrlf">corrosion</span></div>
+        <a href="https://www.gov.uk/government/publications/complain-about-an-mot" target="_blank">Appeal an MOT test result (VT17)</a>
+      </div>
+    </details>
+
+    <details class="gf"><summary>Equipment, calibration &amp; records</summary>
+      <div class="body">
+        <div class="snip"><b>Decelerometer</b>: not exceeding <b>1 year</b>. <b>Roller/plate brake &amp; headlamp aim testers</b>: within the <b>6 months</b> after last calibration. <b>Diesel smoke meter</b>: weekly user check + <b>12-monthly</b> UKAS calibration. <b>Calibration records</b>: kept <b>2 years</b> minimum.</div>
+        <div>Ctrl+F: <span class="ctrlf">calibrat</span>, <span class="ctrlf">decelerometer</span>, <span class="ctrlf">two years</span></div>
+        <a href="https://www.gov.uk/guidance/mot-testing-guide/appendix-2-facilities-and-security" target="_blank">MOT Testing Guide — Appendix 2: Facilities &amp; security</a>
+      </div>
+    </details>
+
+    <details class="gf"><summary>Roles &amp; quality control</summary>
+      <div class="body">
+        <div class="snip"><b>AEP</b> = legal responsibility; <b>AEDM</b> = day-to-day management; <b>AE</b> = the authorised entity. Quality control: check at least one test per tester <b>every 2 months</b>. Replace a departed manager within <b>35 working days</b> or stop testing.</div>
+        <div>Ctrl+F: <span class="ctrlf">AEDM</span>, <span class="ctrlf">every 2 months</span>, <span class="ctrlf">35 working days</span></div>
+        <a href="https://www.gov.uk/guidance/manage-your-mot-centre" target="_blank">Manage your MOT centre</a>
+      </div>
+    </details>
+
+    <details class="gf"><summary>Discipline &amp; penalty points</summary>
+      <div class="body">
+        <div class="snip">Fraud/dishonesty (e.g. dishonestly issuing a VT20, a "ghost" MOT) = <b>500 points = cessation</b>, can be immediate. <b>Tester</b> cessation at 500 or 100+ accumulated; <b>AE</b> at 500 or 200+. Stop testing immediately if mandatory equipment malfunctions.</div>
+        <div>Ctrl+F: <span class="ctrlf">500 points</span>, <span class="ctrlf">cessation</span>, <span class="ctrlf">malfunction</span></div>
+        <a href="https://www.gov.uk/guidance/mot-testing-guide/appendix-8-disciplinary-procedures" target="_blank">MOT Testing Guide — Appendix 8: Disciplinary procedures</a>
+      </div>
+    </details>
+
+    <details class="gf"><summary>Pass / Major / Dangerous &amp; Decline vs Refuse (scenarios)</summary>
+      <div class="body">
+        <div class="snip">Map the scenario to a numbered manual section (e.g. <b>4. Lamps</b>, <b>1. Brakes</b>), then Ctrl+F a keyword. <b>Decline</b> = you choose not to start (vehicle unsuitable for facilities). <b>Refuse</b> = a condition/safety reason at pre-check stops the test.</div>
+        <div>Ctrl+F: section keyword, then <span class="ctrlf">decline</span> / <span class="ctrlf">refuse</span></div>
+        <a href="https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles" target="_blank">MOT Inspection Manual — cars &amp; passenger vehicles</a>
+      </div>
+    </details>
+
+    <div class="callout c-blue">
+      <strong>Fast-find cheat — keep this open in the test</strong>
+      <table style="margin-top:8px">
+        <tr><th>Topic</th><th>Open</th><th>Ctrl+F</th></tr>
+        <tr><td>Appeal / complaint days</td><td>Appeal page</td><td><code>working days</code></td></tr>
+        <tr><td>Calibration intervals</td><td>Appendix 2</td><td><code>calibrat</code></td></tr>
+        <tr><td>Discipline points</td><td>Appendix 8</td><td><code>500 points</code></td></tr>
+        <tr><td>Quality checks</td><td>Manage your MOT centre</td><td><code>every 2 months</code></td></tr>
+        <tr><td>Pass/Major/Dangerous</td><td>Inspection Manual (by section #)</td><td>keyword</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <strong>Sources (official DVSA / GOV.UK):</strong><br>
+    <a href="https://www.gov.uk/guidance/mot-testing-guide" target="_blank">MOT Testing Guide</a> ·
+    <a href="https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles" target="_blank">MOT Inspection Manual</a> ·
+    <a href="https://www.gov.uk/government/publications/mot-tester-annual-assessment-sample-questions" target="_blank">DVSA annual assessment sample questions</a> ·
+    <a href="https://www.gov.uk/government/publications/complain-about-an-mot" target="_blank">Appeal an MOT test result</a>
+    <p style="margin-top:14px">Verified June 2026. Answers checked against official sources; the few items the commercial mocks got wrong are flagged in red above. Confirm the exact permitted reference materials with your awarding body before the exam.</p>
+  </div>
+</footer>
+
+<script>
+const L = {
+  appeal:['https://www.gov.uk/government/publications/complain-about-an-mot','GOV.UK — Appeal an MOT result'],
+  app2:['https://www.gov.uk/guidance/mot-testing-guide/appendix-2-facilities-and-security','Testing Guide — Appendix 2 (equipment)'],
+  app8:['https://www.gov.uk/guidance/mot-testing-guide/appendix-8-disciplinary-procedures','Testing Guide — Appendix 8 (discipline)'],
+  app6:['https://www.gov.uk/guidance/mot-testing-guide/appendix-6-tester-training-and-demonstration-tests','Testing Guide — Appendix 6 (testers)'],
+  app1:['https://www.gov.uk/guidance/mot-testing-guide/appendix-1-mot-manager-training','Testing Guide — Appendix 1 (managers)'],
+  secB:['https://www.gov.uk/guidance/mot-testing-guide/b-authorised-examiners','Testing Guide — B. Authorised examiners'],
+  secG:['https://www.gov.uk/guidance/mot-testing-guide/g-vehicle-presenters','Testing Guide — G. Vehicle presenters'],
+  manage:['https://www.gov.uk/guidance/manage-your-mot-centre','GOV.UK — Manage your MOT centre'],
+  training:['https://www.gov.uk/mot-tester-training-assessments','GOV.UK — Annual tester training'],
+  hswa:['https://www.hse.gov.uk/legislation/hswa.htm','HSE — Health & Safety at Work Act 1974'],
+  risk:['https://www.hse.gov.uk/simple-health-safety/risk/','HSE — Risk assessment (hazard vs risk)'],
+  noise:['https://www.hse.gov.uk/noise/','HSE — Noise at work'],
+  carLamp:['https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles/4-lamps-reflectors-and-electrical-equipment','Inspection Manual §4 — Lamps'],
+  carBrake:['https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles/1-brakes','Inspection Manual §1 — Brakes'],
+  carManual:['https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','Inspection Manual — cars (emissions)'],
+  bikeManual:['https://www.gov.uk/guidance/mot-inspection-manual-for-motorcycles','MOT Inspection Manual — motorcycles']
+};
+const CARDS = [
+  // topic: 'look' | 'mem' | 'official' ; src: key into L
+  {t:'look', cat:'Appeals', src:'appeal', q:'A presenter wants to appeal an MOT <b>failure (VT30)</b>. Within how long, and on what form?', o:['7 working days, VT20','14 working days, VT17','28 calendar days, VT17','3 months, VT30'], a:'14 working days, form VT17', w:'A fail is appealed within 14 working days. Don’t repair the vehicle before DVSA re-examines it.'},
+  {t:'look', cat:'Appeals', src:'appeal', q:'A customer thinks the vehicle <b>passed when it shouldn’t have</b>. Time limit?', o:['14 working days','28 calendar days (3 months if corrosion)','6 months','No limit'], a:'28 calendar days — or 3 months if corrosion-related', w:'Different from a fail appeal (14 working days).'},
+  {t:'look', cat:'Appeals', src:'appeal', q:'Match the forms: VT17 / VT20 / VT30.', o:[], a:'VT17 = notice of appeal · VT20 = pass certificate · VT30 = refusal/fail certificate', w:'These three come up constantly — know them cold.'},
+  {t:'look', cat:'Calibration', src:'app2', q:'How often must a <b>decelerometer</b> be calibrated?', o:['Every 2 months','Every 6 months','Every 12 months (1 year)','Every 2 years'], a:'Not exceeding 1 year', w:'Rule effective 1 April 2023. Older mocks say 6 months — out of date.'},
+  {t:'look', cat:'Calibration', src:'app2', q:'A <b>roller/plate brake tester or headlamp aim tester</b> must be recalibrated…', o:['Every month','Within the 6 months after its last calibration','Every 2 years','Only when it fails'], a:'Within the 6 months following its last calibration date', w:'Counts as calibrated until the end of that 6th month.'},
+  {t:'look', cat:'Calibration', src:'app2', q:'How is a <b>diesel smoke meter</b> maintained?', o:[], a:'User check every week + UKAS calibration every 12 months', w:'Two separate requirements — don’t confuse them.'},
+  {t:'look', cat:'Calibration', src:'app2', q:'How long must <b>calibration records</b> be kept?', o:['6 months','1 year','2 years','5 years'], a:'Minimum 2 years', w:'Applies to the calibration records generally.'},
+  {t:'look', cat:'Roles', src:'secB', q:'Who must ensure equipment is calibrated and valid records exist?', o:['The tester','The manufacturer','The Authorised Examiner (AE)','DVSA'], a:'The Authorised Examiner (AE)', w:'The AE carries this responsibility.'},
+  {t:'look', cat:'Roles', src:'secB', q:'Who holds <b>legal responsibility</b> for MOT testing at the site?', o:['The tester','The site manager','The AEP','Reception'], a:'The Authorised Examiner Principal (AEP)', w:'AEDM runs day-to-day; AE is the authorised entity.'},
+  {t:'look', cat:'Roles', src:'manage', q:'How often should the AEDM <b>quality-control check</b> each tester?', o:['Once a year','One test per tester every 2 months','Every week','Only after complaints'], a:'At least one test per tester every 2 months (~6/year)', w:'More for high-volume or inexperienced testers.'},
+  {t:'look', cat:'Roles', src:'app1', q:'The only trained manager (AEDM) leaves. What must happen?', o:['Nothing','Replace within 35 working days or stop testing','Replace within 3 months','Continue indefinitely'], a:'Train a replacement within 35 working days or testing must stop', w:'Why stations train more than one manager.'},
+  {t:'look', cat:'Discipline', src:'app8', q:'Which leads to the most serious sanction (often immediate cessation)?', o:['Missing slight corrosion','A genuine error of judgement','Dishonestly issuing a VT20','A late annual assessment'], a:'Dishonestly issuing a VT20 (fraud)', w:'Fraud/dishonesty = 500 points = cessation, can be immediate.'},
+  {t:'look', cat:'Discipline', src:'app8', q:'How many points is a fraudulent/“ghost” MOT?', o:['100','300','500','50'], a:'500 points', w:'Also: unauthorised testing, wrong class, testing with faulty major equipment.'},
+  {t:'look', cat:'Discipline', src:'app8', q:'A mandatory item of equipment malfunctions mid-day. You must…', o:['Carry on 48 hours','Finish booked cars only','Stop testing immediately','Wait for DVSA'], a:'Stop testing (that class/type) immediately', w:'Testing with faulty major equipment = 500 points.'},
+  {t:'mem', cat:'Training', src:'training', q:'Minimum annual training for an MOT tester?', o:['3 hours/year + pass annual assessment','16 hours over 5 years','36 hours/year','No requirement'], a:'3 hours per year (6 if both groups) + pass the assessment by 31 March', w:'The old "16 hours / 5 years" answer is pre-2018 and out of date — confirm which your exam uses.'},
+  {t:'mem', cat:'Training', src:'app6', q:'When a <b>new tester</b> is employed, the manager must obtain…', o:[], a:'Evidence the tester is eligible to test (qualification + good repute)', w:'Don’t let an unverified person test.'},
+  {t:'mem', cat:'Discipline', src:'app8', q:'Cessation point thresholds — tester vs AE?', o:[], a:'Tester: 500 (single) or 100+ accumulated · AE: 500 or 200+', w:'Formal warning starts at 40 points.'},
+  {t:'mem', cat:'Health & Safety', src:'hswa', q:'The Health & Safety at Work Act 1974 places duties on…', o:['Employers only','Employees only','Employers and employees','DVSA'], a:'Employers AND employees', w:'Both have legal duties.'},
+  {t:'mem', cat:'Health & Safety', src:'hswa', q:'How is the employer’s main H&S duty phrased?', o:[], a:'“So far as is reasonably practicable”', w:'Classic exam phrase — memorise it exactly.'},
+  {t:'mem', cat:'Health & Safety', src:'risk', q:'Definition of a <b>hazard</b>?', o:['Likelihood of harm','Something with potential to cause harm','A control measure','An everyday occurrence'], a:'Something with the potential to cause harm', w:'Risk = the likelihood that harm occurs.'},
+  {t:'mem', cat:'Health & Safety', src:'noise', q:'Workshop noise — lower action value for hearing protection?', o:['50 dB','60 dB','70 dB','80 dB(A)'], a:'80 dB(A)', w:'Mandatory use at 85 dB(A). Control of Noise at Work Regs 2005.'},
+  {t:'mem', cat:'Quality', src:'manage', q:'On a DVSA <b>site assessment</b>, the best score per section is…', o:['1','2','3','4'], a:'1 (lower is better)', w:'Higher scores flag higher risk.'},
+  {t:'mem', cat:'Customer service', src:'secG', q:'Principles of customer communication and care?', o:['Technical jargon','Eye contact, listening, showing interest and concern','Refer all to DVSA','Avoid eye contact'], a:'Eye contact, listening, showing interest and concern', w:'Soft-skills unit — pure recall.'},
+  {t:'mem', cat:'Customer service', src:'secG', q:'Best way to stop a complaint recurring?', o:['Refuse to discuss','Review and revise procedures','Change contracts','Ignore it'], a:'Review and revise procedures', w:'Fix the system, not just the incident.'},
+  {t:'official', cat:'Scenario — Cars', src:'carLamp', q:'2016 car with front + rear fog lamps; the <b>front</b> fog lamps don’t work. Action?', o:['Pass','Major','Minor','Not tested'], a:'Pass', w:'Front fog lamps aren’t testable on a 2016 car; only the rear fog is mandatory.'},
+  {t:'official', cat:'Scenario — Cars', src:'secG', q:'Heavily modified car can’t get onto the surface-mounted hoist. You should…', o:['Use the wheels-free 2-post hoist','Refuse','Decline','Topside only + partial fee'], a:'Decline to test', w:'Unsuitable for the facilities = decline.'},
+  {t:'official', cat:'Scenario — Cars', src:'carBrake', q:'2017 Class 4 M1, wear indicator lit; can’t see inner front pad thickness on both wheels, others fine. Action?', o:['Pass and advise','Major','Dangerous','Remove wheels to check'], a:'Pass and advise', w:'You don’t dismantle to inspect.'},
+  {t:'official', cat:'Scenario — Cars', src:'carManual', q:'2010 kit car, no emission limits on V5, no EGA/in-service match, engine from a 2009 vehicle. Action?', o:['No emissions test','Basic test only','Cat test, defaults CO ≤0.2% fast idle / ≤0.3% idle','CO ≤0.3% / ≤0.5%'], a:'Cat test using defaults CO ≤0.2% fast idle and ≤0.3% idle', w:'Use the default cat limits.'},
+  {t:'official', cat:'Scenario — Bikes', src:'bikeManual', q:'2015 motorcycle, position lamps combined with indicators; lamps stay lit when indicators operate. Action?', o:['Pass','Major','Minor','Recheck at half throttle'], a:'Pass', w:'Acceptable configuration.'},
+  {t:'official', cat:'Scenario — Bikes', src:'secG', q:'Honda Blackbird 1100cc; only tester has a restricted licence so can’t ride it. You should…', o:['Start anyway','Refuse','Decline','Pre-check whether a road test is needed first'], a:'Conduct a pre-check to determine if a road test is required before starting', w:'Don’t decline/refuse prematurely — check if a road test is even needed.'},
+  {t:'official', cat:'Scenario — Bikes', src:'bikeManual', q:'Linked brakes: hand 26% total, foot 25% total, no wheels locked on rollers. Action?', o:['Pass','Below minimum','Carry out a decelerometer test','Repeat roller test'], a:'Carry out a decelerometer test', w:'Roller result inconclusive (no lock) → decelerometer.'},
+  {t:'official', cat:'Scenario — Bikes', src:'bikeManual', q:'Motorcycle + sidecar outfit with a <b>car-type tyre on the sidecar</b>. Action?', o:['Major','Pass','Pass and advise','Dangerous'], a:'Pass', w:'A car-type tyre on a sidecar is acceptable.'}
+];
+
+const BADGE = {look:['b-look','Look it up'], mem:['b-mem','Memorise'], official:['b-official','Official DVSA']};
+const deck = document.getElementById('deck');
+const filterBar = document.getElementById('filters');
+let active = 'all';
+
+const cats = ['all', ...new Set(CARDS.map(c=>c.cat))];
+const labels = {all:'All cards'};
+cats.forEach(c=>{
+  const b=document.createElement('button');
+  b.textContent = labels[c]||c;
+  b.dataset.cat=c;
+  if(c==='all') b.classList.add('active');
+  b.onclick=()=>{active=c; document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('active',x.dataset.cat===c)); render();};
+  filterBar.appendChild(b);
+});
+
+function render(){
+  deck.innerHTML='';
+  CARDS.filter(c=>active==='all'||c.cat===active).forEach(c=>{
+    const opts = c.o.length ? '<ol type="A" class="opts">'+c.o.map(o=>`<li>${o}</li>`).join('')+'</ol>' : '';
+    const [bcls,btxt]=BADGE[c.t];
+    const [url,label]=L[c.src];
+    const card=document.createElement('div');
+    card.className='rc';
+    card.innerHTML=`
+      <div class="ask">
+        <span class="badge ${bcls}">${btxt}</span>
+        <p class="q">${c.q}</p>
+        ${opts}
+      </div>
+      <div class="resp">
+        <button class="reveal-btn">Reveal answer</button>
+        <div class="answer">
+          <p class="ans">${c.a}</p>
+          <p class="why">${c.w}</p>
+          <span class="vlabel">Verify it yourself</span>
+          <a class="verify" href="${url}" target="_blank" rel="noopener">${label} ↗</a>
+        </div>
+      </div>`;
+    card.querySelector('.reveal-btn').addEventListener('click',()=>card.classList.add('revealed'));
+    deck.appendChild(card);
+  });
+}
+render();
+</script>
+</body>
+</html>
